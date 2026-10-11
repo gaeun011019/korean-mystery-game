@@ -77,22 +77,27 @@ function saveNotice() {
 function renderLibrary() {
   document.title = '사건 수첩 · 사건 선택';
   return `<main id="main-content" class="case-library" tabindex="-1">
-    ${eyebrow(`THE CASE NOTEBOOK · ${cases.length}개의 사건`)}
+    <header class="library-hero">
+    <div class="library-copy">${eyebrow(`THE CASE NOTEBOOK · ${cases.length}개의 사건`)}
     <h1>오늘 펼칠 사건 수첩</h1>
     <p>어느 사건부터 시작해도 좋습니다. 쉬움부터 차례로 새로운 추론을 연습할 수도 있어요.</p>
+    </div><div class="archive-emblem" aria-hidden="true"><span>CASE</span><b>FILE</b><i></i><small>TRUTH IN THE DETAILS</small></div>
+    </header>
     ${saveNotice()}
+    <div class="archive-heading"><span>사건 기록 보관함</span><span>CASE FILES / 01—05</span></div>
     <div class="case-grid">${cases.map((data) => {
       const record = saves.load(data);
       const bad = ['damaged', 'incompatible'].includes(record.status);
       const state = record.state;
       const status = bad ? '저장 확인 필요' : state.solved ? '완료' : state.started ? '조사 중' : '새 사건';
       return `<article class="case-card">
+        <span class="file-number" aria-hidden="true">${data.number}</span>
         <div class="paper-topline"><span>CASE ${data.number}</span><span>${data.difficulty}</span></div>
-        <h2>${escapeHtml(data.title)}</h2><p>${escapeHtml(data.subtitle)}</p>
-        <p>${escapeHtml(data.challenge)}</p>
-        <p class="small-note">${escapeHtml(data.estimatedTime)} · 단서 ${data.clues.length}개<br />${status}${state.started ? ` · 확보 ${state.clueIds.length}/${data.clues.length}` : ''}</p>
-        ${actionButton(state.solved ? '해설 다시 보기' : state.started ? '이어하기' : '사건 살펴보기', 'open-case', data.id, 'button primary')}
-        ${actionButton(state.started || bad ? '새 게임' : '새 게임 시작', 'new-case', data.id, 'text-button')}
+        <h2>${escapeHtml(data.title)}</h2><p class="case-subtitle">${escapeHtml(data.subtitle)}</p>
+        <p class="case-challenge">${escapeHtml(data.challenge)}</p>
+        <p class="small-note case-status">${escapeHtml(data.estimatedTime)} · 단서 ${data.clues.length}개<br />${status}${state.started ? ` · 확보 ${state.clueIds.length}/${data.clues.length}` : ''}</p>
+        <div class="card-actions">${actionButton(state.solved ? '해설 다시 보기' : state.started ? '이어하기' : '사건 살펴보기', 'open-case', data.id, 'button primary')}
+        ${actionButton(state.started || bad ? '새 게임' : '새 게임 시작', 'new-case', data.id, 'text-button')}</div>
       </article>`;
     }).join('')}</div>
     <p class="storage-help">진행은 같은 브라우저·기기·사이트 주소에 자동 저장됩니다. 시크릿 모드 종료나 사이트 데이터 삭제 시 사라질 수 있습니다. localhost와 127.0.0.1은 서로 다른 저장 공간입니다. 표시 시간은 실측이 아닌 기획 추정이며, 읽는 속도·재검토·힌트 사용에 따라 달라집니다.</p>
@@ -135,12 +140,12 @@ function render() {
     <div class="app-shell">
       <aside class="sidebar" aria-label="사건 탐색">
         <a class="brand" href="#" data-action="navigate" data-value="overview">
-          <span class="brand-mark" aria-hidden="true">冊</span>
+          <span class="brand-mark" aria-hidden="true">⌕</span>
           <span>사건 수첩<small>THE CASE NOTEBOOK</small></span>
         </a>
         ${actionButton('← 사건 선택', 'library', '', 'text-button')}
         <div class="case-label">CASE FILE <span>${caseData.number} · ${caseData.difficulty}</span></div>
-        <p class="sidebar-title">${escapeHtml(caseData.title).replace(' ', '<br />')}</p>
+        <p class="sidebar-title">${escapeHtml(caseData.title)}</p>
         <div class="sidebar-rule"></div>
         <nav aria-label="게임 메뉴">
           ${navigation.map((item) => `
@@ -207,19 +212,14 @@ function renderOverview() {
     <section class="overview-hero" aria-labelledby="page-title">
       <div class="hero-copy">
         ${eyebrow(`${caseData.difficulty} · ${caseData.setting}`)}
-        <h1 id="page-title">${escapeHtml(caseData.title).replace(' ', '<br />')}</h1>
+        <h1 id="page-title">${escapeHtml(caseData.title)}</h1>
         <p class="hero-subtitle">${escapeHtml(caseData.subtitle)}</p>
         <div class="hero-tags"><span>1인 추리</span><span>${caseData.estimatedTime}</span><span>용의자 ${caseData.suspects.length}명</span></div>
       </div>
-      <div class="cover-art" aria-hidden="true">
-        <div class="art-orbit"></div>
-        <div class="letter-paper">
-          <span>남겨진 기록을</span>
-          <span>당신의 추리로 잇다.</span>
-          <i></i><i></i><i></i>
-        </div>
-        <div class="envelope"><div class="wax-seal">言</div></div>
-        <span class="art-caption">THE WORDS LEFT UNSAID</span>
+      <div class="cover-art dossier-art" aria-hidden="true">
+        <div class="dossier-sheet"><span>INVESTIGATION / ${caseData.number}</span><b>CASE<br />FILE</b><i></i><i></i><i></i><small>기록 · 증거 · 추리</small></div>
+        <div class="dossier-ticket"><span>EVIDENCE</span><b>?</b><small>모든 단서는 하나의 진실로.</small></div>
+        <div class="dossier-lens"></div>
       </div>
     </section>
     <section class="intro-paper">

@@ -20,12 +20,10 @@ const contentTypes = {
   '.js': 'text/javascript; charset=utf-8',
 };
 const command = process.argv[2] ?? 'dev';
-const port = Number(process.env.PORT ?? 4173);
+// Keep one origin for development and preview; PORT is intentionally ignored.
+const port = 4173;
 
-if (!Number.isInteger(port) || port < 1024 || port > 65535) {
-  console.error('PORT는 1024~65535의 정수여야 합니다.');
-  process.exitCode = 1;
-} else if (!['dev', 'build', 'preview'].includes(command)) {
+if (!['dev', 'build', 'preview'].includes(command)) {
   console.error('사용법: node dev.mjs [dev|build|preview]');
   process.exitCode = 1;
 } else if (command === 'build') {
@@ -106,7 +104,7 @@ async function serve(directory) {
 
   server.on('error', (error) => {
     if (error.code === 'EADDRINUSE') {
-      console.error(`${port} 포트를 이미 사용 중입니다. 기존 실행을 Ctrl+C로 종료해 주세요.`);
+      console.error(`${port} 포트가 이미 사용 중입니다. 이 게임의 기존 서버라면 http://127.0.0.1:4173/ 을 이용하세요. 다른 앱이면 종료하지 말고 포트 사용을 확인해 주세요. 다른 포트로 자동 전환하지 않습니다.`);
     } else {
       console.error(`서버를 실행하지 못했습니다: ${error.message}`);
     }
