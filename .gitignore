@@ -1,0 +1,40 @@
+# Rebuildable output and dependencies
+/dist/
+/node_modules/
+/coverage/
+/playwright-report/
+/test-results/
+*.log
+
+# Local credentials, settings, databases and browser profiles
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.pfx
+*.p12
+*.sqlite
+*.sqlite3
+*.db
+/.aws/
+/.codex/
+/.agents/
+/.vscode/
+/.idea/
+/browser-profile*/
+
+# OS files and temporary validation artefacts
+.DS_Store
+Thumbs.db
+Desktop.ini
+*.tmp
+*.bak
+/browser-*.png
+/browser-*-report.json
+/browser-check.mjs
+/time-ui-check.mjs
+
+# Local planning/history notes; current public guidance is DEVELOPMENT.md
+/docs/mystery-game-spec.md
+/docs/five-case-design.md

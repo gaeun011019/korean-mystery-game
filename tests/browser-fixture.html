@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>저장 장애 검증 전용</title><link rel="stylesheet" href="../src/styles.css">
+<div style="padding:20px;border-bottom:2px solid #a3543a">
+  <strong>검증 전용 주소 · 실제 사용자 저장과 분리</strong>
+  <button id="damage">쉬움 저장 손상시키기</button>
+  <button id="old">보통 이전 버전 만들기</button>
+  <button id="block">저장 차단</button>
+  <button id="repair">저장 차단 해제</button>
+  <p id="fixture-status" role="status"></p>
+</div><div id="app"></div>
+<script type="module">
+  const realStorage = window.localStorage;
+  let blocked = false;
+  Object.defineProperty(window, 'localStorage', { configurable: true, get() {
+    if (blocked) throw new Error('테스트용 저장 차단');
+    return realStorage;
+  }});
+  document.querySelector('#damage').onclick = () => {
+    realStorage.setItem('case-notebook:save:the-unsaid-words', '{broken');
+    realStorage.setItem('case-notebook:active', 'the-unsaid-words');
+    location.reload();
+  };
+  document.querySelector('#old').onclick = () => {
+    realStorage.setItem('case-notebook:save:four-minutes-ahead', JSON.stringify({version: 0}));
+    realStorage.setItem('case-notebook:active', 'four-minutes-ahead');
+    location.reload();
+  };
+  document.querySelector('#block').onclick = () => {
+    blocked = true;
+    document.querySelector('#fixture-status').textContent = '테스트: 저장 차단 중';
+  };
+  document.querySelector('#repair').onclick = () => {
+    blocked = false;
+    document.querySelector('#fixture-status').textContent = '테스트: 저장 차단 해제됨';
+  };
+  await import('../src/app.js');
+</script></html>
