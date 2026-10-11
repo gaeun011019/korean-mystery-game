@@ -129,4 +129,6 @@ Windows / Node.js **24.19.0**에서 자동 검사 **30개**와 빌드를 확인�
 
 게임은 클라이언트에서 동작하므로 소스에 정답·해설이 포함됩니다. 개발자 도구나 사건 데이터 파일을 열면 해답을 읽을 수 있습니다. 순위 경쟁이나 해답 은닉을 보장하는 구조는 아닙니다.
 
-코드·스토리·디자인의 재사용 라이선스는 아직 지정하지 않았으며 `LICENSE` 파일을 임의로 추가하지 않았습니다.
+본 프로젝트에는 수정·재배포를 허용하는 오픈소스 라이선스를 부여하지 않습니다. 권리자의 별도 허락 없이 코드·스토리·디자인을 수정하거나 재배포할 권한을 부여하지 않습니다.
+
+이 안내는 GitHub 약관에 따른 공개 저장소의 열람·포크 권한을 제한하지 않습니다. 자세한 범위는 [GitHub의 공개 저장소 라이선스 안내](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/licensing-a-repository)를 확인하세요.
